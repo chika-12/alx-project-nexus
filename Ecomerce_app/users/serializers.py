@@ -7,11 +7,16 @@ class UsersSerializer(serializers.ModelSerializer):
 
   class Meta:
     model = Users
-    fields = ['id', 'first_name', 'last_name', 'email', 'password', 'role', 'date_created', 'date_updated']
+    fields = ['id', 'first_name', 'last_name', 'email', 'password', 'role', 'last_login', 'date_created', 'date_updated']
   
   def create(self, validated_data):
     password = validated_data.pop('password')
     validated_data['role'] = 'customer'
     user = Users.objects.create_user(password=password, **validated_data)
     return user
-  
+
+class EmailLookupSerializer(serializers.Serializer):
+  email = serializers.EmailField()
+class LoggingData(serializers.Serializer):
+  email = serializers.EmailField()
+  password = serializers.CharField()

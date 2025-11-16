@@ -9,6 +9,7 @@ USER_ROLES = [
   ('delivery', 'Delivery')
 ]
 
+
 class UserManager(BaseUserManager):
   def create_user(self, email, password=None, **extra_fields):
     if not email:
@@ -48,4 +49,15 @@ class Users(AbstractBaseUser, PermissionsMixin):
   
   USERNAME_FIELD = 'email'
   REQUIRED_FIELDS = ['first_name', 'last_name']
-    
+
+
+class Profile(models.Model):
+  id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+  user_id = models.OneToOneField(Users, on_delete=models.CASCADE)
+  name = models.CharField(max_length=256)
+  phone_number = models.IntegerField()
+  state = models.CharField(max_length=67, blank=True, null=True)
+  city = models.CharField(max_length=67, blank=True, null=True)
+  address = models.CharField(max_length=200, blank=True, null=True)
+  date_created = models.DateTimeField(auto_now=True)
+  date_updated = models.DateTimeField(auto_now=True)

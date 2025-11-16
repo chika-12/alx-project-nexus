@@ -34,29 +34,30 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    "django.contrib.admin",
-    "django.contrib.auth",
-    "django.contrib.contenttypes",
-    "django.contrib.sessions",
-    "django.contrib.messages",
-    "django.contrib.staticfiles",
-    "rest_framework",
-    "users",
-    "product_listing",
-    "product_payment",
-    "security",
-    "drf_yasg",
+  "django.contrib.admin",
+  "django.contrib.auth",
+  "django.contrib.contenttypes",
+  "django.contrib.sessions",
+  "django.contrib.messages",
+  "django.contrib.staticfiles",
+  "rest_framework",
+  "users.apps.UsersConfig",
+  "product_listing",
+  "product_payment",
+  "security",
+  "drf_yasg",
+  #"rest_framework_simplejwt.tokens_blacklist"
 ]
 
 MIDDLEWARE = [
-    "django.middleware.security.SecurityMiddleware",
-    "django.contrib.sessions.middleware.SessionMiddleware",
-    "django.middleware.common.CommonMiddleware",
-    "django.middleware.csrf.CsrfViewMiddleware",
-    "django.contrib.auth.middleware.AuthenticationMiddleware",
-    "django.contrib.messages.middleware.MessageMiddleware",
-    "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "users.middleware.RequestLoggingMiddleware",
+  "django.middleware.security.SecurityMiddleware",
+  "django.contrib.sessions.middleware.SessionMiddleware",
+  "django.middleware.common.CommonMiddleware",
+  "django.middleware.csrf.CsrfViewMiddleware",
+  "django.contrib.auth.middleware.AuthenticationMiddleware",
+  "django.contrib.messages.middleware.MessageMiddleware",
+  "django.middleware.clickjacking.XFrameOptionsMiddleware",
+  "users.middleware.RequestLoggingMiddleware",
 ]
 
 ROOT_URLCONF = "Ecomerce_app.urls"
@@ -172,3 +173,21 @@ LOGGING = {
   },
 }
 
+#Exception Handler
+REST_FRAMEWORK = {
+    #'EXCEPTION_HANDLER': 'Ecomerce_app.exceptions.custom_exception_handler',
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+}
+
+
+from datetime import timedelta
+
+SIMPLE_JWT = {
+  'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),  # how long access tokens are valid
+  'REFRESH_TOKEN_LIFETIME': timedelta(days=1),     # how long refresh tokens are valid
+  'ROTATE_REFRESH_TOKENS': True,                  # issue new refresh token on use
+  'BLACKLIST_AFTER_ROTATION': True,              # old refresh tokens get blacklisted
+  'AUTH_HEADER_TYPES': ('Bearer',),              # expects 'Authorization: Bearer <token>'
+}

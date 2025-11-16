@@ -20,6 +20,13 @@ from django.urls import path, include, re_path
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
+from django.conf.urls import handler404
+from drf_yasg import openapi
+
+#from Ecomerce_app.handlers import custom_404 
+
+#handler404 = custom_404
+
 
 
 schema_view = get_schema_view(
@@ -31,6 +38,15 @@ schema_view = get_schema_view(
   public=True,
   permission_classes=(permissions.AllowAny,),
 )
+
+
+JWT_AUTH_PARAM = openapi.Parameter(
+    name='Authorization',
+    in_=openapi.IN_HEADER,      # The token goes in the header
+    description='JWT Token. Example: Bearer <token>',
+    type=openapi.TYPE_STRING
+)
+
 
 urlpatterns = [
     path("admin/", admin.site.urls),
