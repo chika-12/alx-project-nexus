@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 import uuid
+#from .views import allowed_roles
 
 USER_ROLES = [
   ('admin', 'Admin'),
@@ -9,6 +10,10 @@ USER_ROLES = [
   ('delivery', 'Delivery')
 ]
 
+class ActiveManager(models.Manager):
+  def get_queryset(self):
+    return super().get_queryset().filter(is_active=True)
+  
 
 class UserManager(BaseUserManager):
   def create_user(self, email, password=None, **extra_fields):
@@ -31,7 +36,7 @@ class UserManager(BaseUserManager):
     if extra_fields.get('is_superuser') is not True:
       raise ValueError("Superuser must be an admin. Must have is_superuser set to True")
     
-    return self.create_user(email, password, extra_fields)
+    return self.create_user(email, password, **extra_fields)
 
 class Users(AbstractBaseUser, PermissionsMixin):
   id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -46,6 +51,7 @@ class Users(AbstractBaseUser, PermissionsMixin):
   date_updated = models.DateTimeField(auto_now=True)
 
   objects = UserManager()
+  active = ActiveManager()
   
   USERNAME_FIELD = 'email'
   REQUIRED_FIELDS = ['first_name', 'last_name']
@@ -61,3 +67,5 @@ class Profile(models.Model):
   address = models.CharField(max_length=200, blank=True, null=True)
   date_created = models.DateTimeField(auto_now=True)
   date_updated = models.DateTimeField(auto_now=True)
+
+

@@ -1,5 +1,5 @@
 from rest_framework import serializers 
-from .models import Users 
+from .models import Users, Profile 
 from django.contrib.auth.password_validation import validate_password
 
 class UsersSerializer(serializers.ModelSerializer):
@@ -20,3 +20,8 @@ class EmailLookupSerializer(serializers.Serializer):
 class LoggingData(serializers.Serializer):
   email = serializers.EmailField()
   password = serializers.CharField()
+
+class ProfileSerializer(serializers.ModelSerializer):
+  class Meta:
+    model = Profile
+    fields = "__all__"
