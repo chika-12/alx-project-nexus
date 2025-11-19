@@ -215,15 +215,16 @@ SIMPLE_JWT = {
 #swagger settings
 
 SWAGGER_SETTINGS = {
-  'SECURITY_DEFINITIONS': {
-    'Bearer': {
-      'type': 'apiKey',
-      'name': 'Authorization',
-      'in': 'header',
-      'description': "JWT Authorization header using the Bearer scheme. Example: 'Bearer <token>'",
-    }
-  }
+    'SECURITY_DEFINITIONS': {
+        'Bearer': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header'
+        }
+    },
+    'USE_SESSION_AUTH': False,   # disables session login
 }
+
 
 #Email settings
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
