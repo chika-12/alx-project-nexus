@@ -1,0 +1,42 @@
+name: Deploy to Render and Run Migrations
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run Django migrations
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: |
+          export DATABASE_URL=${{ secrets.DATABASE_URL }}
+          python manage.py makemigrations --noinput
+          python manage.py migrate --noinput
+
+      - name: Deploy to Render
+        env:
+          RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
+        run: |
+          curl -X POST "https://api.render.com/v1/services/srv-d4eqoduuk2gs739n5ueg/deploys" \
+               -H "Authorization: Bearer $RENDER_API_KEY" \
+               -H "Content-Type: application/json" \
+               -d '{"clearCache":false}'

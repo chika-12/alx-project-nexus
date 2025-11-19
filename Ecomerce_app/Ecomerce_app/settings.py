@@ -29,7 +29,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-fnmui1v$v)qx69*u8m)o-69bf$46_kg!(9heu!knm$#84rflp$"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
   "alx-project-nexus-ecommerce-backend.onrender.com",
@@ -88,8 +88,8 @@ TEMPLATES = [
 WSGI_APPLICATION = "Ecomerce_app.wsgi.application"
 
 
-# Database
-# https://docs.djangoproject.com/en/5.2/ref/settings/#databases
+#Database
+#https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 # DATABASES = {
 #     "default": {
