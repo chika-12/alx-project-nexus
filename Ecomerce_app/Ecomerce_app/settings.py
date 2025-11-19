@@ -31,7 +31,12 @@ SECRET_KEY = "django-insecure-fnmui1v$v)qx69*u8m)o-69bf$46_kg!(9heu!knm$#84rflp$
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+  "alx-project-nexus-ecommerce-backend.onrender.com",
+  "localhost",
+  "127.0.0.1",
+]
+
 
 
 # Application definition
@@ -99,7 +104,7 @@ WSGI_APPLICATION = "Ecomerce_app.wsgi.application"
 
 DATABASES = {
     'default': dj_database_url.config(
-        default=os.environ.get("DATABAS_URL"),
+        default=os.environ.get("DABASE_URL"),
         conn_max_age=600,
         ssl_require=False
     )
