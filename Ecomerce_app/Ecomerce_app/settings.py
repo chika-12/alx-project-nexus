@@ -175,10 +175,13 @@ LOGGING = {
 
 #Exception Handler
 REST_FRAMEWORK = {
-    #'EXCEPTION_HANDLER': 'Ecomerce_app.exceptions.custom_exception_handler',
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-    ),
+  #'EXCEPTION_HANDLER': 'Ecomerce_app.exceptions.custom_exception_handler',
+  'DEFAULT_AUTHENTICATION_CLASSES': (
+    'rest_framework_simplejwt.authentication.JWTAuthentication',
+  ),
+  "DEFAULT_PERMISSION_CLASSES": [
+    "rest_framework.permissions.IsAuthenticated",
+  ],
 }
 
 
@@ -191,3 +194,25 @@ SIMPLE_JWT = {
   'BLACKLIST_AFTER_ROTATION': True,              # old refresh tokens get blacklisted
   'AUTH_HEADER_TYPES': ('Bearer',),              # expects 'Authorization: Bearer <token>'
 }
+
+#swagger settings
+
+SWAGGER_SETTINGS = {
+  'SECURITY_DEFINITIONS': {
+    'Bearer': {
+      'type': 'apiKey',
+      'name': 'Authorization',
+      'in': 'header',
+      'description': "JWT Authorization header using the Bearer scheme. Example: 'Bearer <token>'",
+    }
+  }
+}
+
+#Email settings
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'markworship001@gmail.com'       # Replace with your Gmail
+EMAIL_HOST_PASSWORD = 'ytcajgaleqopaihb'      # Use Gmail App Password
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER

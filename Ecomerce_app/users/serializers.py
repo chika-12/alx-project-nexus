@@ -17,6 +17,7 @@ class UsersSerializer(serializers.ModelSerializer):
 
 class EmailLookupSerializer(serializers.Serializer):
   email = serializers.EmailField()
+    
 class LoggingData(serializers.Serializer):
   email = serializers.EmailField()
   password = serializers.CharField()

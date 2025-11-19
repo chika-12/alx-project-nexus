@@ -15,7 +15,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from django.core import signing
 from .emailServices import emailService
 from .messages import get_upgrade_email_content
-
+from .utilities import selectRequiredFields
 
 def allowed_roles(roles):
   def decorator(view_func):
@@ -346,6 +346,7 @@ def verify_user(request):
 @api_view(["POST"])
 @permission_classes([IsAuthenticated, RolePermissionFactory(["admin"])])
 def upgrade_user(request):
+  print(request.data)
 
   userRole = request.data.get("role")
   email = request.data.get('email')
@@ -368,3 +369,32 @@ def upgrade_user(request):
     return Response({"message": "Only staff users can be upgraded. Please assign staff status to the user first."})
   
 
+@api_view(["PATCH"])
+def profile_update(request):
+  clean_data = selectRequiredFields(request.data)
+  serialize = ProfileSerializer(instance=request.user.profile, data=clean_data, partial=True)
+  if serialize.is_valid():
+    serialize.save()
+    return Response({
+      "message": "profile updated successfully",
+      "data": {
+        "profile": serialize.data
+      }
+    }, status=status.HTTP_200_OK)
+  return Response({
+    "message": "profile update failed",
+    "error": serialize.errors
+  }, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+# def generate_token(user):
+#     """Generate JWT token for authenticated user"""
+#     payload = {
+#         'user_id': user.id,
+#         'email': user.email,
+#         'exp': datetime.datetime.utcnow() + datetime.timedelta(days=1),
+#         'iat': datetime.datetime.utcnow()
+#     }
+#     token = jwt.encode(payload, settings.SECRET_KEY, algorithm='HS256')
+#     return token
