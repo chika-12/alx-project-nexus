@@ -104,12 +104,13 @@ WSGI_APPLICATION = "Ecomerce_app.wsgi.application"
 
 DATABASES = {
     'default': dj_database_url.config(
-        default=os.environ.get("DATABASE_URL"),
+        default=os.environ.get("EXTERNAL_DB"),
         conn_max_age=600,
         ssl_require=False
     )
 }
 
+#DATABASES["default"] = dj_database_url.parse("postgresql://ecomerce_app_user:NMeIiMz2krI52gvT6THNp4OPHixpKEey@dpg-d4eq9sodl3ps73ca4ja0-a.oregon-postgres.render.com/ecomerce_app")
 
 
 # Password validation
