@@ -303,10 +303,10 @@ def userProfile(request):
       "message": "User profile not found"
     }, status=status.HTTP_404_NOT_FOUND)
   
-  if not user.is_verified:
-    return Response({
-      "message": "You have not been verified"
-    }, status=status.HTTP_401_UNAUTHORIZED)
+  # if not user.is_verified:
+  #   return Response({
+  #     "message": "You have not been verified"
+  #   }, status=status.HTTP_401_UNAUTHORIZED)
   
   serialize = ProfileSerializer(userProfile)
   data = UsersSerializer(profileuser)
