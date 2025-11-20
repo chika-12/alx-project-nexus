@@ -87,6 +87,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "Ecomerce_app.wsgi.application"
 
+#DISABLE_SIGNALS = True
 
 #Database
 #https://docs.djangoproject.com/en/5.2/ref/settings/#databases
@@ -235,3 +236,6 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'markworship001@gmail.com'       # Replace with your Gmail
 EMAIL_HOST_PASSWORD = 'ytcajgaleqopaihb'      # Use Gmail App Password
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+
+#  twill = MFNZ23N93FL7Y6WH117T7AU7
