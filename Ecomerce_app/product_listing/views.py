@@ -15,7 +15,7 @@ User = get_user_model()
 class ProductViewset(ModelViewSet):
   queryset = models.ProductModel.objects.all()
   serializer_class = serializers.ProductSerializers
-  permission_classes = [IsAuthenticated, OnlyAdminCanPost]
+  permission_classes = [IsAuthenticated]
   filter_backends = [
     DjangoFilterBackend,
     filters.SearchFilter,
