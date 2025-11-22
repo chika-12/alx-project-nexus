@@ -51,6 +51,7 @@ JWT_AUTH_PARAM = openapi.Parameter(
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("users/", include("users.urls")),
+    path("product/", include("product_listing.urls")),
 
 
     #Swagger Documentation

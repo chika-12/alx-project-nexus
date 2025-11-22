@@ -101,7 +101,7 @@ WSGI_APPLICATION = "Ecomerce_app.wsgi.application"
 #         "HOST": verify_env("DB_HOST"),
 #         "PORT": verify_env("DB_PORT")
 #     }
-# }
+#  }
 
 DATABASES = {
     'default': dj_database_url.config(
@@ -201,6 +201,11 @@ REST_FRAMEWORK = {
   "DEFAULT_PERMISSION_CLASSES": [
     "rest_framework.permissions.IsAuthenticated",
   ],
+  'DEFAULT_FILTER_BACKENDS': [
+    'django_filters.rest_framework.DjangoFilterBackend',
+    'rest_framework.filters.SearchFilter',
+    'rest_framework.filters.OrderingFilter',
+  ]
 }
 
 
@@ -239,3 +244,6 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 
 #  twill = MFNZ23N93FL7Y6WH117T7AU7
+
+# filtering and pagination setting
+
