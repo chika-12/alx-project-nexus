@@ -1,6 +1,7 @@
 from django.db import models
 import uuid
 from django.conf import settings
+from cloudinary.models import CloudinaryField
 # Create your models here.
 
 STATUS_CHOICES = [
@@ -23,7 +24,7 @@ class ProductModel(models.Model):
   category = models.CharField(max_length=247, null=False, blank=False)
   manufactured_date = models.DateField()
   expiry_date = models.DateField()
-  product_image = models.URLField(max_length=1000, null=True, blank=True)
+  product_image = CloudinaryField("image_photos", null=True, blank=True)
   description = models.TextField()
   price = models.DecimalField(max_digits=12, decimal_places=2, default=0)
   stock = models.IntegerField()

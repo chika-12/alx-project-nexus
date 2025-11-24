@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import api_view, permission_classes, parser_classes
 from rest_framework.response import Response
 from rest_framework import status
 from .serializers import UsersSerializer, EmailLookupSerializer, LoggingData, ProfileSerializer
@@ -17,6 +17,7 @@ from .emailServices import emailService
 from .messages import get_upgrade_email_content
 from .utilities import selectRequiredFields
 from .helper_functions import HelperClass
+from rest_framework.parsers import MultiPartParser, FormParser
 helper = HelperClass()
 
 #Sign up
@@ -202,11 +203,43 @@ def upgrade_user(request):
     return helper.response("Only staff users can be upgraded. Please assign staff status to the user first.", status_data=status.HTTP_304_NOT_MODIFIED)
   
 
+# @api_view(["PATCH"])
+# @parser_classes([MultiPartParser, FormParser])
+# def profile_update(request):
+#   clean_data = selectRequiredFields(request.data)
+#   serialize = ProfileSerializer(instance=request.user.profile, data=clean_data, partial=True)
+#   if serialize.is_valid():
+#     serialize.save()
+#     return helper.response("profile updated successfully", status_data=status.HTTP_200_OK, data=serialize.data)
+#   return helper.response("profile update failed", status_data=status.HTTP_400_BAD_REQUEST, data=serialize.errors)
+
+
 @api_view(["PATCH"])
+@parser_classes([MultiPartParser, FormParser])
 def profile_update(request):
-  clean_data = selectRequiredFields(request.data)
-  serialize = ProfileSerializer(instance=request.user.profile, data=clean_data, partial=True)
-  if serialize.is_valid():
-    serialize.save()
-    return helper.response("profile updated successfully", status_data=status.HTTP_200_OK, data=serialize.data)
-  return helper.response("profile update failed", status_data=status.HTTP_400_BAD_REQUEST, data=serialize.errors)
+    profile = request.user.profile
+
+    data = request.data.copy()
+
+    if 'profile_photo' in request.FILES:
+        data['profile_photo'] = request.FILES['profile_photo']
+
+    serializer = ProfileSerializer(
+        profile,
+        data=data,
+        partial=True
+    )
+
+    if serializer.is_valid():
+        serializer.save()
+        return helper.response(
+            "profile updated successfully",
+            status_data=status.HTTP_200_OK,
+            data=serializer.data
+        )
+
+    return helper.response(
+        "profile update failed",
+        status_data=status.HTTP_400_BAD_REQUEST,
+        data=serializer.errors
+    )

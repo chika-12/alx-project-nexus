@@ -8,6 +8,7 @@ from .utility import OnlyAdminCanPost, NoUpdateForFavourite
 from rest_framework.permissions import IsAuthenticated, AllowAny, IsAuthenticatedOrReadOnly
 from django.conf import settings
 from rest_framework.response import Response
+from rest_framework.parsers import MultiPartParser, FormParser
 from django.contrib.auth import get_user_model
 from django_redis import get_redis_connection
 from django.core.cache import cache
@@ -19,6 +20,7 @@ class ProductViewset(ModelViewSet):
   queryset = models.ProductModel.objects.all()
   serializer_class = serializers.ProductSerializers
   permission_classes = [IsAuthenticated]
+  parser_classes = [MultiPartParser, FormParser]
   filter_backends = [
     DjangoFilterBackend,
     filters.SearchFilter,
@@ -52,17 +54,17 @@ class ProductViewset(ModelViewSet):
 
   def create(self, request, *args, **kwargs):
     response = super().create(request, *args, **kwargs)
-    self.clear_products_cache()
+    cache.clear()
     return response
 
   def update(self, request, *args, **kwargs):
     response = super().update(request, *args, **kwargs)
-    self.clear_products_cache()
+    cache.clear()
     return response
 
   def destroy(self, request, *args, **kwargs):
     response = super().destroy(request, *args, **kwargs)
-    self.clear_products_cache()
+    cache.clear()
     return response
 
 

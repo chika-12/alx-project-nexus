@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 import uuid
+from cloudinary.models import CloudinaryField
 #from .views import allowed_roles
 
 USER_ROLES = [
@@ -62,7 +63,7 @@ class Profile(models.Model):
   user_id = models.OneToOneField(Users, on_delete=models.CASCADE)
   name = models.CharField(max_length=256)
   phone_number = models.CharField(max_length=21, blank=True, null=True)
-  profile_photo = models.ImageField(blank=True, null=True)
+  profile_photo = CloudinaryField('profile_photos', blank=True, null=True)
   state = models.CharField(max_length=67, blank=True, null=True)
   city = models.CharField(max_length=67, blank=True, null=True)
   address = models.CharField(max_length=200, blank=True, null=True)

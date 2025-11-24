@@ -15,6 +15,7 @@ from util import verify_env
 import os
 import dj_database_url
 import os
+import cloudinary
 
 
 
@@ -54,6 +55,8 @@ INSTALLED_APPS = [
   "product_payment",
   "security",
   "drf_yasg",
+  'cloudinary',
+  'cloudinary_storage',
   #"rest_framework_simplejwt.tokens_blacklist"
 ]
 
@@ -104,11 +107,11 @@ WSGI_APPLICATION = "Ecomerce_app.wsgi.application"
 #  }
 
 DATABASES = {
-    'default': dj_database_url.config(
-        default=os.environ.get("DATABASE_URL"),
-        conn_max_age=600,
-        ssl_require=False
-    )
+  'default': dj_database_url.config(
+    default=os.environ.get("DATABASE_URL"),
+    conn_max_age=600,
+    ssl_require=False
+  )
 }
 
 #DATABASES["default"] = dj_database_url.parse("postgresql://ecomerce_app_user:NMeIiMz2krI52gvT6THNp4OPHixpKEey@dpg-d4eq9sodl3ps73ca4ja0-a.oregon-postgres.render.com/ecomerce_app")
@@ -245,9 +248,7 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 #  twill = MFNZ23N93FL7Y6WH117T7AU7
 
-# Redis Cache
-
-
+#Redis Cache for deployed app
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
@@ -257,6 +258,26 @@ CACHES = {
         }
     }
 }
+
+#local caching
+# CACHES = {
+#   "default": {
+#    "BACKEND": "django_redis.cache.RedisCache",
+#     "LOCATION": verify_env("LOCAL_REDIS_URL"),
+#     "OPTIONS": {
+#         "CLIENT_CLASS": "django_redis.client.DefaultClient",
+#       }
+#   }
+# }
+
+#Cloudinary Settings
+CLOUDINARY_STORAGE = {
+  'CLOUD_NAME': verify_env('CLOUDINARY_CLOUD_NAME'),
+  'API_KEY': verify_env('CLOUDINARY_API_KEY'),
+  'API_SECRET': verify_env('CLOUDINARY_API_SECRET')
+}
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 #Redis for session
 #SESSION_ENGINE = "django.contrib.sessions.backends.cache"

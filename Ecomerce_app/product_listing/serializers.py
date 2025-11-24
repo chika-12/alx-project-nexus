@@ -26,9 +26,17 @@ class RatingSerializer(serializers.ModelSerializer):
 class ProductSerializers(serializers.ModelSerializer):
   sku = serializers.CharField(read_only=True)
   ratings = RatingSerializer(source='product_rating', many=True, read_only=True)
+  product_image = serializers.SerializerMethodField()
+
   class Meta:
     model = ProductModel
     fields = "__all__"
+
+  
+  def get_product_image(self, obj):
+    if obj.product_image:
+      return obj.product_image.build_url()  # <-- returns full Cloudinary URL
+    return None
   
   def validate_name(self, value):
     if len(value) < 3:

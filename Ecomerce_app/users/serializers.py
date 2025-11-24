@@ -24,6 +24,21 @@ class LoggingData(serializers.Serializer):
   password = serializers.CharField()
 
 class ProfileSerializer(serializers.ModelSerializer):
+  #profile_photo = serializers.SerializerMethodField()
   class Meta:
     model = Profile
     fields = "__all__"
+    extra_kwargs = {
+      "profile_photo": {"required": False}
+    }
+  
+  def to_representation(self, instance):
+    data = super().to_representation(instance)
+
+    # Convert Cloudinary field to full URL
+    if instance.profile_photo:
+      data["profile_photo"] = instance.profile_photo.url
+    else:
+      data["profile_photo"] = None
+
+    return data
