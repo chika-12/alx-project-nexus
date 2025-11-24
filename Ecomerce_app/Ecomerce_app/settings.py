@@ -245,5 +245,19 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 #  twill = MFNZ23N93FL7Y6WH117T7AU7
 
-# filtering and pagination setting
+# Redis Cache
 
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": verify_env("REDIS_URL"),
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
+}
+
+#Redis for session
+#SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+#SESSION_CACHE_ALIAS = "default"

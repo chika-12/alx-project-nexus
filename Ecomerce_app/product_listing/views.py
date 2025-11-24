@@ -7,7 +7,10 @@ from django_filters.rest_framework import DjangoFilterBackend
 from .utility import OnlyAdminCanPost, NoUpdateForFavourite
 from rest_framework.permissions import IsAuthenticated, AllowAny, IsAuthenticatedOrReadOnly
 from django.conf import settings
+from rest_framework.response import Response
 from django.contrib.auth import get_user_model
+from django_redis import get_redis_connection
+from django.core.cache import cache
 User = get_user_model()
 
 # Create your views here.
@@ -27,6 +30,42 @@ class ProductViewset(ModelViewSet):
   filterset_fields = ['category', 'status']
   # Sorting fields
   ordering_fields = ['price', 'date_added', 'name']
+
+  def list(self, request, *args, **kwargs):
+    cache_key = f"products-list:{request.get_full_path()}"
+    cached_response = cache.get(cache_key)
+    if cached_response:
+      return Response({
+        "message": "from cache",
+        "data": cached_response
+      })
+    queryset = self.filter_queryset(self.get_queryset())
+    serializer = self.get_serializer(queryset, many=True)
+    cache.set(cache_key, serializer.data, timeout=300)
+    return Response(serializer.data)
+  
+  def clear_products_cache(self):
+    redis_conn = get_redis_connection("default")
+    keys = redis_conn.keys("products-list:*")
+    if keys:
+      redis_conn.delete(*keys)
+
+  def create(self, request, *args, **kwargs):
+    response = super().create(request, *args, **kwargs)
+    self.clear_products_cache()
+    return response
+
+  def update(self, request, *args, **kwargs):
+    response = super().update(request, *args, **kwargs)
+    self.clear_products_cache()
+    return response
+
+  def destroy(self, request, *args, **kwargs):
+    response = super().destroy(request, *args, **kwargs)
+    self.clear_products_cache()
+    return response
+
+
 
 
 class FavourViewSet(ModelViewSet):
