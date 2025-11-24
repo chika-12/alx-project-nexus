@@ -15,7 +15,7 @@ from util import verify_env
 import os
 import dj_database_url
 import os
-import cloudinary
+#import cloudinary
 
 
 
@@ -36,6 +36,10 @@ ALLOWED_HOSTS = [
   "alx-project-nexus-ecommerce-backend.onrender.com",
   "localhost",
   "127.0.0.1",
+]
+
+CSRF_TRUSTED_ORIGINS = [
+  "https://alx-project-nexus-ecommerce-backend.onrender.com"
 ]
 
 
@@ -278,6 +282,7 @@ CLOUDINARY_STORAGE = {
 }
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+STATICFILES_STORAGE = 'cloudinary_storage.storage.StaticHashedCloudinaryStorage'
 
 #Redis for session
 #SESSION_ENGINE = "django.contrib.sessions.backends.cache"
