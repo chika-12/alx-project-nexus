@@ -281,8 +281,6 @@ CACHES = {
 #   'API_SECRET': verify_env('CLOUDINARY_API_SECRET')
 # }
 
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-STATICFILES_STORAGE = 'cloudinary_storage.storage.StaticHashedCloudinaryStorage'
 
 #Redis for session
 #SESSION_ENGINE = "django.contrib.sessions.backends.cache"
@@ -290,8 +288,7 @@ STATICFILES_STORAGE = 'cloudinary_storage.storage.StaticHashedCloudinaryStorage'
 
 
 #for render
-CLOUDINARY_URL = f"cloudinary://{os.getenv('CLOUDINARY_API_KEY')}:{os.getenv('CLOUDINARY_API_SECRET')}@{os.getenv('CLOUDINARY_CLOUD_NAME')}"
-
+#CLOUDINARY_URL = f"cloudinary://{os.getenv('CLOUDINARY_API_KEY')}:{os.getenv('CLOUDINARY_API_SECRET')}@{os.getenv('CLOUDINARY_CLOUD_NAME')}"
 
 cloudinary.config(
   cloud_name=os.getenv("CLOUDINARY_CLOUD_NAME"),
@@ -299,3 +296,6 @@ cloudinary.config(
   api_secret=os.getenv("CLOUDINARY_API_SECRET"),
   secure=True
 )
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+STATICFILES_STORAGE = 'cloudinary_storage.storage.StaticHashedCloudinaryStorage'
+MEDIA_URL = '/media/'
