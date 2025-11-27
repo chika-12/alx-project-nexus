@@ -13,6 +13,6 @@ urlpatterns = [
   path("reactivate/", views.reactivate_users_byEmail, name="reactivate"),
   path("verify/", views.verify_user,name="verify_user"),
   path("upgradeUser/", views.upgrade_user, name="upgrade"),
-  path("makeUserStaff", views.upgrade_to_staff, name="makeStaff"),
+  path("makeUserStaff/", views.upgrade_to_staff, name="makeStaff"),
   path("update/me/", views.profile_update, name='profile_update'),
 ]

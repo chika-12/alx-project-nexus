@@ -200,17 +200,19 @@ def upgrade_user(request):
     else:
       return helper.response(f"User is already an/a {userRole}", status_data=status.HTTP_304_NOT_MODIFIED)
   else:
-    return helper.response("Only staff users can be upgraded. Please assign staff status to the user first.", status_data=status.HTTP_304_NOT_MODIFIED)
+    return helper.response("Only staff users can be upgraded. Please assign staff status to the user first.", status_data=status.HTTP_200_OK)
   
 @api_view(["POST"])
 @permission_classes([IsAuthenticated, RolePermissionFactory(["admin"])])
 def upgrade_to_staff(request):
   email = request.data.get("email")
+  print(email)
+  print(request.data)
   if not email:
     return helper.response("Email requiered", status_data=status.HTTP_400_BAD_REQUEST)
   
   try:
-    user = models.Users.active.get("email")
+    user = models.Users.active.get(email=email)
   except models.Users.DoesNotExist:
     return helper.response("User not found", status_data=status.HTTP_404_NOT_FOUND)
   user.is_staff = True
@@ -222,10 +224,7 @@ def upgrade_to_staff(request):
 @parser_classes([MultiPartParser, FormParser])
 def profile_update(request):
     profile = request.user.profile
-    print("FILES:", request.FILES)
-    print("DATA:", request.data)
-
-
+    
     if "profile_photo" in request.FILES:
         profile.profile_photo = request.FILES["profile_photo"]
 
