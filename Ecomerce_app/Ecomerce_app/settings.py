@@ -34,13 +34,15 @@ DEBUG = False
 
 ALLOWED_HOSTS = [
   "alx-project-nexus-ecommerce-backend.onrender.com",
-  "alx-project-nexus-ecomerce.onrender.com"
+  "alx-project-nexus-ecomerce.onrender.com",
   "localhost",
   "127.0.0.1",
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-  "https://alx-project-nexus-ecommerce-backend.onrender.com"
+  "https://alx-project-nexus-ecommerce-backend.onrender.com",
+  "https://alx-project-nexus-ecomerce.onrender.com",
+
 ]
 
 
