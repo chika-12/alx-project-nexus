@@ -203,43 +203,22 @@ def upgrade_user(request):
     return helper.response("Only staff users can be upgraded. Please assign staff status to the user first.", status_data=status.HTTP_304_NOT_MODIFIED)
   
 
-# @api_view(["PATCH"])
-# @parser_classes([MultiPartParser, FormParser])
-# def profile_update(request):
-#   clean_data = selectRequiredFields(request.data)
-#   serialize = ProfileSerializer(instance=request.user.profile, data=clean_data, partial=True)
-#   if serialize.is_valid():
-#     serialize.save()
-#     return helper.response("profile updated successfully", status_data=status.HTTP_200_OK, data=serialize.data)
-#   return helper.response("profile update failed", status_data=status.HTTP_400_BAD_REQUEST, data=serialize.errors)
-
 
 @api_view(["PATCH"])
 @parser_classes([MultiPartParser, FormParser])
 def profile_update(request):
     profile = request.user.profile
+    print("FILES:", request.FILES)
+    print("DATA:", request.data)
 
-    data = request.data.copy()
 
-    if 'profile_photo' in request.FILES:
-        data['profile_photo'] = request.FILES['profile_photo']
+    if "profile_photo" in request.FILES:
+        profile.profile_photo = request.FILES["profile_photo"]
 
-    serializer = ProfileSerializer(
-        profile,
-        data=data,
-        partial=True
-    )
+    serializer = ProfileSerializer(profile, data=request.data, partial=True)
 
     if serializer.is_valid():
         serializer.save()
-        return helper.response(
-            "profile updated successfully",
-            status_data=status.HTTP_200_OK,
-            data=serializer.data
-        )
+        return Response({"message": "Profile updated", "data": serializer.data})
 
-    return helper.response(
-        "profile update failed",
-        status_data=status.HTTP_400_BAD_REQUEST,
-        data=serializer.errors
-    )
+    return Response(serializer.errors, status=400)

@@ -25,6 +25,8 @@ class LoggingData(serializers.Serializer):
 
 class ProfileSerializer(serializers.ModelSerializer):
   #profile_photo = serializers.SerializerMethodField()
+  #profile_photo = serializers.FileField(required=False)
+
   class Meta:
     model = Profile
     fields = "__all__"
@@ -36,7 +38,7 @@ class ProfileSerializer(serializers.ModelSerializer):
     data = super().to_representation(instance)
 
     # Convert Cloudinary field to full URL
-    if instance.profile_photo:
+    if instance.profile_photo and hasattr(instance.profile_photo, 'url'):
       data["profile_photo"] = instance.profile_photo.url
     else:
       data["profile_photo"] = None
