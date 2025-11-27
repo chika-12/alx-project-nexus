@@ -53,6 +53,8 @@ class ProductViewset(ModelViewSet):
       redis_conn.delete(*keys)
 
   def create(self, request, *args, **kwargs):
+    print("FILES:", request.FILES)
+    print("DATA:", request.data)
     response = super().create(request, *args, **kwargs)
     cache.clear()
     return response
@@ -73,7 +75,7 @@ class ProductViewset(ModelViewSet):
 class FavourViewSet(ModelViewSet):
   queryset = models.Favourite.objects.all()
   serializer_class = serializers.FavouriteSerializers
-  permission_class = [IsAuthenticated, AllowAny,NoUpdateForFavourite]
+  permission_classes = [IsAuthenticated, AllowAny,NoUpdateForFavourite]
 
   def get_queryset(self):
     user = User.objects.get(email=self.request.user)

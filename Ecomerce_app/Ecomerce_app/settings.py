@@ -14,7 +14,6 @@ from pathlib import Path
 from util import verify_env
 import os
 import dj_database_url
-import os
 import cloudinary
 
 
@@ -30,7 +29,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-fnmui1v$v)qx69*u8m)o-69bf$46_kg!(9heu!knm$#84rflp$"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
   "alx-project-nexus-ecommerce-backend.onrender.com",
@@ -110,8 +109,8 @@ WSGI_APPLICATION = "Ecomerce_app.wsgi.application"
 #         "PASSWORD": verify_env("DB_PASSWORD"),
 #         "HOST": verify_env("DB_HOST"),
 #         "PORT": verify_env("DB_PORT")
-#     }
-#  }
+#      }
+#   }
 
 DATABASES = {
   'default': dj_database_url.config(
@@ -278,11 +277,11 @@ CACHES = {
 # }
 
 #Cloudinary Settings
-# CLOUDINARY_STORAGE = {
-#   'CLOUD_NAME': verify_env('CLOUDINARY_CLOUD_NAME'),
-#   'API_KEY': verify_env('CLOUDINARY_API_KEY'),
-#   'API_SECRET': verify_env('CLOUDINARY_API_SECRET')
-# }
+CLOUDINARY_STORAGE = {
+  'CLOUD_NAME': verify_env('CLOUDINARY_CLOUD_NAME'),
+  'API_KEY': verify_env('CLOUDINARY_API_KEY'),
+  'API_SECRET': verify_env('CLOUDINARY_API_SECRET')
+}
 
 
 #Redis for session
@@ -293,12 +292,12 @@ CACHES = {
 #for render
 #CLOUDINARY_URL = f"cloudinary://{os.getenv('CLOUDINARY_API_KEY')}:{os.getenv('CLOUDINARY_API_SECRET')}@{os.getenv('CLOUDINARY_CLOUD_NAME')}"
 
-cloudinary.config(
-  cloud_name=os.getenv("CLOUDINARY_CLOUD_NAME"),
-  api_key=os.getenv("CLOUDINARY_API_KEY"),
-  api_secret=os.getenv("CLOUDINARY_API_SECRET"),
-  secure=True
-)
+# cloudinary.config(
+#   cloud_name=os.getenv("CLOUDINARY_CLOUD_NAME"),
+#   api_key=os.getenv("CLOUDINARY_API_KEY"),
+#   api_secret=os.getenv("CLOUDINARY_API_SECRET"),
+#   secure=True
+# )
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 STATICFILES_STORAGE = 'cloudinary_storage.storage.StaticHashedCloudinaryStorage'
 MEDIA_URL = '/media/'

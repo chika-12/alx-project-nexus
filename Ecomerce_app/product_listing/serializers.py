@@ -26,7 +26,8 @@ class RatingSerializer(serializers.ModelSerializer):
 class ProductSerializers(serializers.ModelSerializer):
   sku = serializers.CharField(read_only=True)
   ratings = RatingSerializer(source='product_rating', many=True, read_only=True)
-  product_image = serializers.SerializerMethodField()
+  #product_image = serializers.SerializerMethodField()
+  product_image = serializers.ImageField()
 
   class Meta:
     model = ProductModel
