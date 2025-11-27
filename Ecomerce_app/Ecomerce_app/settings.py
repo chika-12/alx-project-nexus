@@ -99,26 +99,26 @@ WSGI_APPLICATION = "Ecomerce_app.wsgi.application"
 #Database
 #https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.postgresql",
-#         "NAME": verify_env("DB_NAME"),
-#         "USER": verify_env("DB_USER"),
-#         "PASSWORD": verify_env("DB_PASSWORD"),
-#         "HOST": verify_env("DB_HOST"),
-#         "PORT": verify_env("DB_PORT")
-#     }
-#  }
-
 DATABASES = {
-  'default': dj_database_url.config(
-    default=os.environ.get("DATABASE_URL"),
-    conn_max_age=600,
-    ssl_require=False
-  )
-}
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": verify_env("DB_NAME"),
+        "USER": verify_env("DB_USER"),
+        "PASSWORD": verify_env("DB_PASSWORD"),
+        "HOST": verify_env("DB_HOST"),
+        "PORT": verify_env("DB_PORT")
+    }
+ }
 
-#DATABASES["default"] = dj_database_url.parse("postgresql://ecomerce_app_user:NMeIiMz2krI52gvT6THNp4OPHixpKEey@dpg-d4eq9sodl3ps73ca4ja0-a.oregon-postgres.render.com/ecomerce_app")
+# DATABASES = {
+#   'default': dj_database_url.config(
+#     default=os.environ.get("DATABASE_URL"),
+#     conn_max_age=600,
+#     ssl_require=False
+#   )
+# }
+
+#DATABASES["default"] = dj_database_url.parse("postgresql://ecom_app_user:1I4WeGJXorYoNZAQqn07bsUot9EGAppF@dpg-d4jp6t24d50c73d1j4pg-a.oregon-postgres.render.com/ecom_app")
 
 
 # Password validation
