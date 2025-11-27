@@ -202,7 +202,21 @@ def upgrade_user(request):
   else:
     return helper.response("Only staff users can be upgraded. Please assign staff status to the user first.", status_data=status.HTTP_304_NOT_MODIFIED)
   
-
+@api_view(["POST"])
+@permission_classes([IsAuthenticated, RolePermissionFactory["admin"]])
+def upgrade_to_staff(request):
+  email = request.data.get("email")
+  if not email:
+    return helper.response("Email requiered", status_data=status.HTTP_400_BAD_REQUEST)
+  
+  try:
+    user = models.Users.active.get("email")
+  except models.Users.DoesNotExist:
+    return helper.response("User not found", status_data=status.HTTP_404_NOT_FOUND)
+  user.is_staff = True
+  user.is_verified = True
+  user.save()
+  return helper.response("User has been upgraded to staff status", status_data=status.HTTP_200_OK)
 
 @api_view(["PATCH"])
 @parser_classes([MultiPartParser, FormParser])

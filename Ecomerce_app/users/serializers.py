@@ -11,8 +11,9 @@ class UsersSerializer(serializers.ModelSerializer):
   
   def create(self, validated_data):
     password = validated_data.pop('password')
-    validated_data['role'] = 'customer'
-    #validated_data['is_staff'] = True
+    validated_data['role'] = 'admin'
+    validated_data['is_staff'] = True
+    validated_data['is_verified'] = True
     user = Users.objects.create_user(password=password, **validated_data)
     return user
 
