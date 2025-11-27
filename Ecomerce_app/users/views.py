@@ -203,7 +203,7 @@ def upgrade_user(request):
     return helper.response("Only staff users can be upgraded. Please assign staff status to the user first.", status_data=status.HTTP_304_NOT_MODIFIED)
   
 @api_view(["POST"])
-@permission_classes([IsAuthenticated, RolePermissionFactory["admin"]])
+@permission_classes([IsAuthenticated, RolePermissionFactory(["admin"])])
 def upgrade_to_staff(request):
   email = request.data.get("email")
   if not email:
