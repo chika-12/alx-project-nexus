@@ -34,6 +34,7 @@ DEBUG = False
 
 ALLOWED_HOSTS = [
   "alx-project-nexus-ecommerce-backend.onrender.com",
+  "alx-project-nexus-ecomerce.onrender.com"
   "localhost",
   "127.0.0.1",
 ]
@@ -99,24 +100,24 @@ WSGI_APPLICATION = "Ecomerce_app.wsgi.application"
 #Database
 #https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": verify_env("DB_NAME"),
-        "USER": verify_env("DB_USER"),
-        "PASSWORD": verify_env("DB_PASSWORD"),
-        "HOST": verify_env("DB_HOST"),
-        "PORT": verify_env("DB_PORT")
-    }
- }
-
 # DATABASES = {
-#   'default': dj_database_url.config(
-#     default=os.environ.get("DATABASE_URL"),
-#     conn_max_age=600,
-#     ssl_require=False
-#   )
-# }
+#     "default": {
+#         "ENGINE": "django.db.backends.postgresql",
+#         "NAME": verify_env("DB_NAME"),
+#         "USER": verify_env("DB_USER"),
+#         "PASSWORD": verify_env("DB_PASSWORD"),
+#         "HOST": verify_env("DB_HOST"),
+#         "PORT": verify_env("DB_PORT")
+#     }
+#  }
+
+DATABASES = {
+  'default': dj_database_url.config(
+    default=os.environ.get("DATABASE_URL"),
+    conn_max_age=600,
+    ssl_require=False
+  )
+}
 
 #DATABASES["default"] = dj_database_url.parse("postgresql://ecom_app_user:1I4WeGJXorYoNZAQqn07bsUot9EGAppF@dpg-d4jp6t24d50c73d1j4pg-a.oregon-postgres.render.com/ecom_app")
 
